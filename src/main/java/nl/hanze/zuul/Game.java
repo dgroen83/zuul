@@ -1,5 +1,7 @@
 package nl.hanze.zuul;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -57,6 +59,10 @@ public class Game
         lab.setExit("east", office);
 
         office.setExit("west", lab);
+
+        theater.addItem("book", "an old, dusty book bound in gray leather" ,1200);
+        theater.addItem("brush", "a very old silver hair brush" ,800);
+
 
         currentRoom = outside;  // start game outside
     }
@@ -162,6 +168,7 @@ public class Game
         else {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
+            System.out.println(currentRoom.getItemsInRoom());
         }
     }
 
