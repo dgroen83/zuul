@@ -1,7 +1,5 @@
 package nl.hanze.zuul;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -60,8 +58,9 @@ public class Game
 
         office.setExit("west", lab);
 
-        theater.addItem("book", "an old, dusty book bound in gray leather" ,1200);
-        theater.addItem("brush", "a very old silver hair brush" ,800);
+        theater.addItem("book", "an old, dusty book bound in gray leather" ,1200,true);
+        theater.addItem("brush", "a very old silver hair brush" ,800,true);
+        theater.addItem("decor", "a nice decor of, it seems to be a Hamlet play (or not) " ,30000, false);
 
 
         currentRoom = outside;  // start game outside
@@ -125,8 +124,40 @@ public class Game
             case QUIT:
                 wantToQuit = quit(command);
                 break;
+                
+            case TAKE:
+                takeItem(command);
+                break;
+                
+            case DROP:
+              //  dropItem(command);
+                break;
         }
         return wantToQuit;
+    }
+
+    private void takeItem(Command command) {
+
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Take what?");
+            return;
+        }
+        String item = command.getSecondWord();
+
+        for(Item i:currentRoom.getItemsInRoom()){
+            if(item.equals(i.getName())){
+                System.out.println("You picked up te " + i.getName());
+                currentRoom.removeItemFromRoom(i);
+                if (currentRoom.areItemsLeftInTheRoom()) System.out.println(currentRoom.printItemsInRoom());
+                break;
+            }
+
+        }
+        System.out.println("there is no item " +item + " to take!");
+        System.out.println(currentRoom.getLongDescription());
+        System.out.println(currentRoom.printItemsInRoom());
+
     }
 
     // implementations of user commands:
@@ -168,7 +199,7 @@ public class Game
         else {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
-            System.out.println(currentRoom.getItemsInRoom());
+           if(currentRoom.areItemsLeftInTheRoom()) System.out.println(currentRoom.printItemsInRoom());
         }
     }
 

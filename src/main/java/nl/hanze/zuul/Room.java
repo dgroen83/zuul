@@ -90,18 +90,29 @@ public class Room {
         return exits.get(direction);
     }
 
-    public String getItemsInRoom() {
+    public String printItemsInRoom() {
         StringBuilder items = new StringBuilder("In the room you see :");
         for (Item item : itemsInRoom) {
-            items.append("\n- ").append(item.getDescription() +" (" + item.getName() + ")");
+            items.append("\n- ").append(item.getDescription()).append(" (").append(item.getName()).append(")");
         }
         return items.toString();
     }
 
-    public void addItem(String name, String description, int weight) {
-        this.itemsInRoom.add(new Item(name, description, weight));
+    public List<Item> getItemsInRoom() {
+        return itemsInRoom;
     }
 
+    public void addItem(String name, String description, int weight, boolean canBePickedUp) {
+        this.itemsInRoom.add(new Item(name, description, weight, canBePickedUp));
+    }
+
+    public void removeItemFromRoom(Item i) {
+        this.itemsInRoom.remove(i);
+    }
+
+    public boolean areItemsLeftInTheRoom(){
+        return itemsInRoom.size()!=0;
+    }
 }
 
 
