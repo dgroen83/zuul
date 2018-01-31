@@ -107,6 +107,10 @@ public class Room {
         this.itemsInRoom.add(new Item(name, description, weight, canBePickedUp));
     }
 
+    public void addItem(Item item) {
+        this.itemsInRoom.add(item);
+    }
+
     public void removeItemFromRoom(Item i) {
         this.itemsInRoom.remove(i);
     }
@@ -123,6 +127,8 @@ public class Room {
         }
         return null;
     }
+
+
 }
 
 

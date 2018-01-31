@@ -147,7 +147,7 @@ public class Game {
                 break;
 
             case DROP:
-                //  dropItem(command);
+                dropItem(command);
                 break;
 
             case EXPLORE:
@@ -155,6 +155,23 @@ public class Game {
                 break;
         }
         return wantToQuit;
+    }
+
+    private void dropItem(Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("Drop what?");
+            return;
+        }
+
+        String strItem = command.getSecondWord();
+        Item item = player.getBackpackItem(strItem);
+
+        if (null!=item){
+            currentRoom.addItem(item);
+            player.removeItemFromBackPack(item);
+            System.out.println("You dropped "+ item.getName() + " from your backpack in the room");
+        }
+
     }
 
     private void explore(Command command) {

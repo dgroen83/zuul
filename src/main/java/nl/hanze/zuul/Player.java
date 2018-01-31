@@ -16,6 +16,11 @@ public class Player {
     }
 
     public Item getBackpackItem(String itemName) {
+        for (Item item : backpack) {
+            if(item.getName().equals(itemName)){
+                return item;
+            }
+        }
         return null;
     }
 
@@ -54,5 +59,9 @@ public class Player {
         for (Item item : backpack) {
             System.out.println("- "+ item.getDescription());
         }
+    }
+
+    public void removeItemFromBackPack(Item item) {
+        this.backpack.remove(item);
     }
 }
