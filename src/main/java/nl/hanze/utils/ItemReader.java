@@ -42,7 +42,7 @@ public class ItemReader {
     }
 
     private static void placeItemInRoom(Room room, String[] item){
-        room.addItem(item[1],item[2].replace("\"","" ),Integer.parseInt(item[3]),Boolean.getBoolean(item[4]));
+        room.addItem(item[1],item[2].replace("\"","" ),Integer.parseInt(item[3]),Boolean.valueOf(item[4]));
     }
 
 }

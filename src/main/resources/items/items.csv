@@ -2,3 +2,8 @@ room;name;decription;weight;canbepickedup
 theater;book;"an old, dusty book bound in gray leather";1200;true
 theater;brush;a very old silver hair brush;800;true
 theater;decor;a nice decor of, it seems to be or not to be from a Hamlet play;30000;false
+pub;wineglass;a elegant wine glass with a lipstick mark;250;true
+pub;barstool;a very old barstool;15000;false
+lab;laptop;a mac book;2000;true
+office;pen;a black shining ballpoint;200;true
+office;paper;a blank piece of paper;25;true
