@@ -32,6 +32,19 @@ public class Parser
         reader = new Scanner(System.in);
     }
 
+    public String getNameOfPlayer(){
+        String inputLine ="";   // will hold the full input line
+        String name= null;
+
+        while (inputLine.equals("")){
+            System.out.print("Hello can you type in you're name?\n>");     // print prompt
+            inputLine = reader.nextLine();
+        }
+        return inputLine;
+    }
+
+
+
     /**
      * @return The next command from the user.
      */

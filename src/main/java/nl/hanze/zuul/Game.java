@@ -24,13 +24,19 @@ import static nl.hanze.utils.ItemReader.placeItemsInRooms;
 public class Game {
     private Parser parser;
     private Room currentRoom;
+    private Player player;
 
     /**
      * Create the game and initialise its internal map.
      */
     public Game() {
-        createRooms();
         parser = new Parser();
+        createPlayer();
+        createRooms();
+    }
+
+    private void createPlayer() {
+        player = new Player(parser.getNameOfPlayer());
     }
 
     /**
@@ -99,8 +105,10 @@ public class Game {
      */
     private void printWelcome() {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome " + player.getName() + " to the World of Zuul!");
+        System.out.println("World of Zuul is a new, incredibly boring adventure game.\n");
+        System.out.println("You have a backpack in which you can carry items ");
+        System.out.println("Your backpack can carry a maximum weight of " + player.getMaxCarrierAmmount() + "\n");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
@@ -141,35 +149,69 @@ public class Game {
             case DROP:
                 //  dropItem(command);
                 break;
+
+            case EXPLORE:
+                explore(command);
+                break;
         }
         return wantToQuit;
     }
 
-    private void takeItem(Command command) {
-        boolean itemFound = false;
+    private void explore(Command command) {
         if (!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
+            System.out.println("Explore what?");
+            System.out.println("At the moment you only can eplore a room or your backback");
+            return;
+        }
+        switch (command.getSecondWord()){
+            case "room":
+                System.out.println(currentRoom.getLongDescription());
+                System.out.println(currentRoom.printItemsInRoom());
+                break;
+            case "backpack":
+                player.printBackPack();
+        }
+    }
+
+    private void takeItem(Command command) {
+        if (!command.hasSecondWord()) {
             System.out.println("Take what?");
             return;
         }
 
         String strItem = command.getSecondWord();
 
-        for (Item item : currentRoom.getItemsInRoom()) {
-            if (strItem.equals(item.getName())) {
-                if (item.canBePickedUp()) {
-                    System.out.println("You picked up te " + item.getName() + "\n");
-                    currentRoom.removeItemFromRoom(item);
-                } else {
-                    System.out.println("I dont know what you're thinking, but I don't think you can carry the " + item.getName() + "\n");
-                }
-                itemFound = true;
-                break;
+        Item item = currentRoom.getItemByString(strItem);
+        if (null == item) System.out.println("there is no item " + strItem + " to take!" + "\n");
+        if (null != item && (!item.canBePickedUp())) System.out.println("I dont know what you're thinking, but I don't think you can carry the " + item.getName() + "\n");
+
+        if (item != null) {
+            if (player.getBackPackWeight()+item.getWeight()<player.getMaxCarrierAmmount()){
+                System.out.println("You picked up te " + item.getName() + "\n");
+                currentRoom.removeItemFromRoom(item);
+                player.addItemToBackPack(item);
+            }else{
+                System.out.println("it seems that your backpack is full. Pleas drop some items to make space! ");
             }
 
         }
-        if (!itemFound) System.out.println("there is no item " + strItem + " to take!" +"\n");
-        if (currentRoom.areItemsLeftInTheRoom()) System.out.println(currentRoom.printItemsInRoom());
+
+
+//        for (Item item : currentRoom.getItemsInRoom()) {
+//            if (strItem.equals(item.getName())) {
+//                if (item.canBePickedUp()) {
+//                    System.out.println("You picked up te " + item.getName() + "\n");
+//                    currentRoom.removeItemFromRoom(item);
+//                } else {
+//                    System.out.println("I dont know what you're thinking, but I don't think you can carry the " + item.getName() + "\n");
+//                }
+//                itemFound = true;
+//                break;
+//            }
+//
+//        }
+//        if (!itemFound) System.out.println("there is no item " + strItem + " to take!" + "\n");
+//        if (currentRoom.areItemsLeftInTheRoom()) System.out.println(currentRoom.printItemsInRoom());
     }
 
 

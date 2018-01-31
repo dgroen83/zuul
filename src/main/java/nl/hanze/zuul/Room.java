@@ -93,7 +93,7 @@ public class Room {
     public String printItemsInRoom() {
         String items = "In the room you see :";
         for (Item item : itemsInRoom) {
-            items += "\n- " + item.getDescription()+ " (" + item.getName()+")";
+            items += "\n- " + item.getDescription() + " (" + item.getName() + ")";
             //items.append("\n- ").append(item.getDescription()).append(" (").append(item.getName()).append(")");
         }
         return items;
@@ -111,8 +111,17 @@ public class Room {
         this.itemsInRoom.remove(i);
     }
 
-    public boolean areItemsLeftInTheRoom(){
-        return itemsInRoom.size()!=0;
+    public boolean areItemsLeftInTheRoom() {
+        return itemsInRoom.size() != 0;
+    }
+
+    public Item getItemByString(String strItem) {
+        for (Item item : itemsInRoom) {
+            if (item.getName().equals(strItem)) {
+                return item;
+            }
+        }
+        return null;
     }
 }
 

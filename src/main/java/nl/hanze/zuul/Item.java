@@ -5,7 +5,7 @@ public class Item {
     private String description;
     private int weight;
 
-    private boolean canBePickedUp = true;
+    private boolean canBePickedUp;
 
     Item(String name, String description, int weight, boolean canBePickedUp) {
         this.name = name;
