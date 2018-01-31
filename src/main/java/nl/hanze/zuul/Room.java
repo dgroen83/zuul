@@ -91,11 +91,12 @@ public class Room {
     }
 
     public String printItemsInRoom() {
-        StringBuilder items = new StringBuilder("In the room you see :");
+        String items = "In the room you see :";
         for (Item item : itemsInRoom) {
-            items.append("\n- ").append(item.getDescription()).append(" (").append(item.getName()).append(")");
+            items += "\n- " + item.getDescription()+ " (" + item.getName()+")";
+            //items.append("\n- ").append(item.getDescription()).append(" (").append(item.getName()).append(")");
         }
-        return items.toString();
+        return items;
     }
 
     public List<Item> getItemsInRoom() {

@@ -1,0 +1,4 @@
+room;name;decription;weight;canbepickedup
+theater;book;"an old, dusty book bound in gray leather";1200;true
+theater;brush;a very old silver hair brush;800;true
+theater;decor;a nice decor of, it seems to be or not to be from a Hamlet play;30000;false
