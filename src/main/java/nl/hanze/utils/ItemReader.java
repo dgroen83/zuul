@@ -1,5 +1,6 @@
 package nl.hanze.utils;
 
+import nl.hanze.zuul.Item;
 import nl.hanze.zuul.Room;
 
 import java.io.*;
@@ -42,7 +43,15 @@ public class ItemReader {
     }
 
     private static void placeItemInRoom(Room room, String[] item){
-        room.addItem(item[1],item[2].replace("\"","" ),Integer.parseInt(item[3]),Boolean.valueOf(item[4]));
+        String name= item[1];
+        String description =item[2].replace("\"","" );
+        int weight= Integer.parseInt(item[3]);
+        boolean canBePickedUp =Boolean.valueOf(item[4]);
+        String reasonCantBePickedUp = (item.length>5)?item[5]:"";
+
+        room.addItem(new Item.ItemBuilder().setName(name).setDescription(description)
+                .setWeight(weight).setCanBePickedUp(canBePickedUp).setReasonCantBePickedUp(reasonCantBePickedUp).createItem());
+
     }
 
 }

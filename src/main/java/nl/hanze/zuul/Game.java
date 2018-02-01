@@ -168,10 +168,10 @@ public class Game {
         String strItem = command.getSecondWord();
         Item item = player.getBackpackItem(strItem);
 
-        if (null!=item){
+        if (null != item) {
             currentRoom.addItem(item);
             player.removeItemFromBackPack(item);
-            System.out.println("You dropped "+ item.getName() + " from your backpack in the room");
+            System.out.println("You dropped " + item.getName() + " from your backpack in the room");
         }
 
     }
@@ -182,7 +182,7 @@ public class Game {
             System.out.println("At the moment you only can eplore a room or your backback");
             return;
         }
-        switch (command.getSecondWord()){
+        switch (command.getSecondWord()) {
             case "room":
                 System.out.println(currentRoom.getLongDescription());
                 System.out.println(currentRoom.printItemsInRoom());
@@ -202,17 +202,21 @@ public class Game {
         String strItem = command.getSecondWord();
 
         Item item = currentRoom.getItemByString(strItem);
-        if (null == item) System.out.println("there is no item " + strItem + " to take!" + "\n");
-        if (null != item && (!item.canBePickedUp())) System.out.println("I dont know what you're thinking, but I don't think you can carry the " + item.getName() + "\n");
+        if (null == item) {
+            System.out.println("there is no item " + strItem + " to take!" + "\n");
+            return;
+        }
+        if (!item.canBePickedUp()) {
+            System.out.println(item.getReasonCantBePickedUp());
+            return;
+        }
 
-        if (item != null) {
-            if (player.getBackPackWeight()+item.getWeight()<player.getMaxCarrierAmmount()){
-                System.out.println("You picked up te " + item.getName() + "\n");
-                currentRoom.removeItemFromRoom(item);
-                player.addItemToBackPack(item);
-            }else{
-                System.out.println("it seems that your backpack is full. Pleas drop some items to make space! ");
-            }
+        if (player.getBackPackWeight() + item.getWeight() < player.getMaxCarrierAmmount()) {
+            System.out.println("You picked up te " + item.getName() + "\n");
+            currentRoom.removeItemFromRoom(item);
+            player.addItemToBackPack(item);
+        } else {
+            System.out.println("it seems that your backpack is full. Pleas drop some items to make space! ");
         }
     }
 

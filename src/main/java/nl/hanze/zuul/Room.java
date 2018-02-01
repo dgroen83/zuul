@@ -104,7 +104,8 @@ public class Room {
     }
 
     public void addItem(String name, String description, int weight, boolean canBePickedUp) {
-        this.itemsInRoom.add(new Item(name, description, weight, canBePickedUp));
+        this.itemsInRoom.add(new Item.ItemBuilder().setName(name).setDescription(description)
+                .setWeight(weight).setCanBePickedUp(canBePickedUp).createItem());
     }
 
     public void addItem(Item item) {
