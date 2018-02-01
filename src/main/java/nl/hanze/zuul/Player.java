@@ -38,7 +38,7 @@ public class Player {
 
     private void setMaxCarrierAmmount() {
         Random rnd = new Random();
-        this.maxCarrierAmount = rnd.nextInt(6)*1000;
+        this.maxCarrierAmount = rnd.nextInt(5)*1000 +1000;
     }
 
     public int getBackPackWeight() {

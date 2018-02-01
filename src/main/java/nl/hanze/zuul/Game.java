@@ -168,6 +168,11 @@ public class Game {
         String strItem = command.getSecondWord();
         Item item = player.getBackpackItem(strItem);
 
+        if (null == item) {
+            System.out.println("there is no item " + strItem + " in your backpack to drop!" + "\n");
+            return;
+        }
+
         if (null != item) {
             currentRoom.addItem(item);
             player.removeItemFromBackPack(item);
