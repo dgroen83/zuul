@@ -157,6 +157,8 @@ public class Game {
         return wantToQuit;
     }
 
+
+    // implementations of user commands:
     private void dropItem(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("Drop what?");
@@ -191,6 +193,7 @@ public class Game {
     }
 
     private void takeItem(Command command) {
+
         if (!command.hasSecondWord()) {
             System.out.println("Take what?");
             return;
@@ -210,29 +213,8 @@ public class Game {
             }else{
                 System.out.println("it seems that your backpack is full. Pleas drop some items to make space! ");
             }
-
         }
-
-
-//        for (Item item : currentRoom.getItemsInRoom()) {
-//            if (strItem.equals(item.getName())) {
-//                if (item.canBePickedUp()) {
-//                    System.out.println("You picked up te " + item.getName() + "\n");
-//                    currentRoom.removeItemFromRoom(item);
-//                } else {
-//                    System.out.println("I dont know what you're thinking, but I don't think you can carry the " + item.getName() + "\n");
-//                }
-//                itemFound = true;
-//                break;
-//            }
-//
-//        }
-//        if (!itemFound) System.out.println("there is no item " + strItem + " to take!" + "\n");
-//        if (currentRoom.areItemsLeftInTheRoom()) System.out.println(currentRoom.printItemsInRoom());
     }
-
-
-    // implementations of user commands:
 
     /**
      * Print out some help information.
