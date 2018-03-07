@@ -1,5 +1,6 @@
 package nl.hanze.zuul;
 
+import javax.swing.table.TableRowSorter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +45,7 @@ public class Game {
      */
     private void createRooms() {
         Room outside, theater, pub, lab, office;
+        TransporterRoom transporterRoom;
 
         // create the rooms
         outside = new Room("outside the main entrance of the university");
@@ -51,6 +53,16 @@ public class Game {
         pub = new Room("in the campus pub");
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
+        Map<Room, String> rooms = new HashMap<>();
+
+        rooms.put(outside, "outside");
+        rooms.put(theater, "theater");
+        rooms.put(pub, "pub");
+        rooms.put(lab, "lab");
+        rooms.put(office, "office");
+
+        transporterRoom = new TransporterRoom("in a magical room, where will we go?", rooms);
+
 
         // initialise room exits
         outside.setExit("east", theater);
@@ -60,19 +72,16 @@ public class Game {
         theater.setExit("west", outside);
 
         pub.setExit("east", outside);
+        pub.setExit("west", transporterRoom);
 
         lab.setExit("north", outside);
         lab.setExit("east", office);
 
         office.setExit("west", lab);
 
-        Map<Room, String> rooms = new HashMap<>();
-        rooms.put(outside, "outside");
-        rooms.put(theater, "theater");
-        rooms.put(pub, "pub");
-        rooms.put(lab, "lab");
-        rooms.put(office, "office");
+
         placeItemsInRooms(rooms);
+
 
 
 //        theater.addItem("book", "an old, dusty book bound in gray leather" ,1200,true);
