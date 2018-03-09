@@ -61,7 +61,7 @@ public class Game {
         rooms.put(lab, "lab");
         rooms.put(office, "office");
 
-        transporterRoom = new TransporterRoom("in a magical room, where will we go?", rooms);
+        transporterRoom = new TransporterRoom("in a magical room, where will we go?", rooms.keySet());
 
 
         // initialise room exits
