@@ -1,6 +1,11 @@
 package nl.hanze.zuul;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+import static nl.hanze.dbconnection.JdbcZuulConnection.selectRoomDecriptionOnName;
 
 /**
  * Class Room - a room in an adventure game.
@@ -16,10 +21,14 @@ import java.util.*;
  * @version 2016.02.29
  */
 
-public class Room {
+public class Room extends nl.hanze.DataObjects.Room{
     private String description;
     private List<Item> itemsInRoom;
     private HashMap<String, Room> exits;        // stores exits of this room.
+
+    public Room() {
+
+    }
 
     /**
      * Create a room described "description". Initially, it has
@@ -29,8 +38,12 @@ public class Room {
      * @param description The room's description.
      */
     public Room(String description) {
-        this.description = description;
-        exits = new HashMap<>();
+        this(description,null);
+    }
+
+    public Room(String roomDescr, HashMap<String, Room> exits) {
+        this.description = roomDescr;
+        this.exits = exits;
         itemsInRoom = new ArrayList<>();
     }
 
@@ -42,6 +55,14 @@ public class Room {
      */
     public void setExit(String direction, Room neighbor) {
         exits.put(direction, neighbor);
+    }
+
+    public void setExits(List<String[]> exits) {
+
+        for (String[] exitList : exits) {
+            this.exits.put(exitList[0], new Room(selectRoomDecriptionOnName(exitList[1])));
+        }
+
     }
 
     /**
@@ -87,6 +108,8 @@ public class Room {
      * @return The room in the given direction.
      */
     public Room getExit(String direction) {
+
+
         return exits.get(direction);
     }
 

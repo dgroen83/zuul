@@ -1,9 +1,14 @@
 package nl.hanze.zuul;
 
+import nl.hanze.DAO.RoomActor;
+import nl.hanze.DataObjects.Exit;
+import nl.hanze.DataObjects.Room;
+import javax.persistence.Persistence;
 import javax.swing.table.TableRowSorter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import static nl.hanze.dbconnection.JdbcZuulConnection.*;
 import static nl.hanze.utils.ItemReader.placeItemsInRooms;
 
 /**
@@ -26,14 +31,17 @@ public class Game {
     private Parser parser;
     private Room currentRoom;
     private Player player;
+    private RoomActor roomActor ;
 
     /**
      * Create the game and initialise its internal map.
      */
     public Game() {
+        roomActor = new RoomActor(Persistence.createEntityManagerFactory("nl.hanze.DataObjects"));
         parser = new Parser();
         createPlayer();
         createRooms();
+
     }
 
     private void createPlayer() {
@@ -44,52 +52,48 @@ public class Game {
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room outside, theater, pub, lab, office;
-        TransporterRoom transporterRoom;
+//        //rmId: 1        2      3    4      5
+//        Room outside, theater, pub, lab, office;
+//        TransporterRoom transporterRoom;
+//
+//        // create the rooms
+//        outside = new Room("outside the main entrance of the university");
+//        theater = new Room("in a lecture theater");
+//        pub = new Room("in the campus pub");
+//        lab = new Room("in a computing lab");
+//        office = new Room("in the computing admin office");
+//        Map<Room, String> rooms = new HashMap<>();
+//
+//        rooms.put(outside, "outside");
+//        rooms.put(theater, "theater");
+//        rooms.put(pub, "pub");
+//        rooms.put(lab, "lab");
+//        rooms.put(office, "office");
+//
+//        transporterRoom = new TransporterRoom("in a magical room, where will we go?", rooms.keySet());
+//
+//
+//        // initialise room exits
+//        outside.setExit("east", theater);
+//        outside.setExit("south", lab);
+//        outside.setExit("west", pub);
+//
+//        theater.setExit("west", outside);
+//
+//        pub.setExit("east", outside);
+//        pub.setExit("west", transporterRoom);
+//
+//        lab.setExit("north", outside);
+//        lab.setExit("east", office);
+//
+//        office.setExit("west", lab);
+//
+//
+//        placeItemsInRooms(rooms);
+//
 
-        // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
-        Map<Room, String> rooms = new HashMap<>();
+        currentRoom = roomActor.getCurrentRoom();
 
-        rooms.put(outside, "outside");
-        rooms.put(theater, "theater");
-        rooms.put(pub, "pub");
-        rooms.put(lab, "lab");
-        rooms.put(office, "office");
-
-        transporterRoom = new TransporterRoom("in a magical room, where will we go?", rooms.keySet());
-
-
-        // initialise room exits
-        outside.setExit("east", theater);
-        outside.setExit("south", lab);
-        outside.setExit("west", pub);
-
-        theater.setExit("west", outside);
-
-        pub.setExit("east", outside);
-        pub.setExit("west", transporterRoom);
-
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
-
-        office.setExit("west", lab);
-
-
-        placeItemsInRooms(rooms);
-
-
-
-//        theater.addItem("book", "an old, dusty book bound in gray leather" ,1200,true);
-//        theater.addItem("brush", "a very old silver hair brush" ,800,true);
-//        theater.addItem("decor", "a nice decor of, it seems to be a Hamlet play (or not) " ,30000, false);
-
-
-        currentRoom = outside;  // start game outside
     }
 
     /**
@@ -169,69 +173,69 @@ public class Game {
 
     // implementations of user commands:
     private void dropItem(Command command) {
-        if (!command.hasSecondWord()) {
-            System.out.println("Drop what?");
-            return;
-        }
-
-        String strItem = command.getSecondWord();
-        Item item = player.getBackpackItem(strItem);
-
-        if (null == item) {
-            System.out.println("there is no item " + strItem + " in your backpack to drop!" + "\n");
-            return;
-        }
-
-        if (null != item) {
-            currentRoom.addItem(item);
-            player.removeItemFromBackPack(item);
-            System.out.println("You dropped " + item.getName() + " from your backpack in the room");
-        }
+//        if (!command.hasSecondWord()) {
+//            System.out.println("Drop what?");
+//            return;
+//        }
+//
+//        String strItem = command.getSecondWord();
+//        Item item = player.getBackpackItem(strItem);
+//
+//        if (null == item) {
+//            System.out.println("there is no item " + strItem + " in your backpack to drop!" + "\n");
+//            return;
+//        }
+//
+//        if (null != item) {
+//            currentRoom.addItem(item);
+//            player.removeItemFromBackPack(item);
+//            System.out.println("You dropped " + item.getName() + " from your backpack in the room");
+//        }
 
     }
 
     private void explore(Command command) {
-        if (!command.hasSecondWord()) {
-            System.out.println("Explore what?");
-            System.out.println("At the moment you only can eplore a room or your backback");
-            return;
-        }
-        switch (command.getSecondWord()) {
-            case "room":
-                System.out.println(currentRoom.getLongDescription());
-                System.out.println(currentRoom.printItemsInRoom());
-                break;
-            case "backpack":
-                player.printBackPack();
-        }
+//        if (!command.hasSecondWord()) {
+//            System.out.println("Explore what?");
+//            System.out.println("At the moment you only can eplore a room or your backback");
+//            return;
+//        }
+//        switch (command.getSecondWord()) {
+//            case "room":
+//                System.out.println(currentRoom.getLongDescription());
+//                System.out.println(currentRoom.printItemsInRoom());
+//                break;
+//            case "backpack":
+//                player.printBackPack();
+//        }
     }
 
     private void takeItem(Command command) {
 
-        if (!command.hasSecondWord()) {
-            System.out.println("Take what?");
-            return;
-        }
-
-        String strItem = command.getSecondWord();
-
-        Item item = currentRoom.getItemByString(strItem);
-        if (null == item) {
-            System.out.println("there is no item " + strItem + " to take!" + "\n");
-            return;
-        }
-        if (!item.canBePickedUp()) {
-            System.out.println(item.getReasonCantBePickedUp());
-            return;
-        }
-
-        if (player.getBackPackWeight() + item.getWeight() < player.getMaxCarrierAmmount()) {
-            System.out.println("You picked up te " + item.getName() + "\n");
-            currentRoom.removeItemFromRoom(item);
-            player.addItemToBackPack(item);
-        } else {
-            System.out.println("it seems that your backpack is full. Pleas drop some items to make space! ");
-        }
+//        if (!command.hasSecondWord()) {
+//            System.out.println("Take what?");
+//            return;
+//        }
+//
+//        String strItem = command.getSecondWord();
+//
+//        Item item = currentRoom.getItemByString(strItem);
+//        if (null == item) {
+//            System.out.println("there is no item " + strItem + " to take!" + "\n");
+//            return;
+//        }
+//        if (!item.canBePickedUp()) {
+//            System.out.println(item.getReasonCantBePickedUp());
+//            return;
+//        }
+//
+//        if (player.getBackPackWeight() + item.getWeight() < player.getMaxCarrierAmmount()) {
+//            System.out.println("You picked up te " + item.getName() + "\n");
+//            currentRoom.removeItemFromRoom(item);
+//            player.addItemToBackPack(item);
+//        } else {
+//            System.out.println("it seems that your backpack is full. Pleas drop some items to make space! ");
+//        }
     }
 
     /**
@@ -261,14 +265,21 @@ public class Game {
         String direction = command.getSecondWord();
 
         // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
+
+
+        updateCurrentRoom(direction);
+
+        Room nextRoom = currentRoom.getExits().get(new Exit(direction));
+       // Room nextNextRoom = currentRoom.getExits().entrySet().stream().collect(Collectors.toMap(e -> e.getKey().getDirection(), Map.Entry::getValue)).get(direction);
+
+
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         } else {
             currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
-            if (currentRoom.areItemsLeftInTheRoom()) System.out.println(currentRoom.printItemsInRoom());
+           System.out.println(currentRoom.getLongDescription());
+//            if (currentRoom.areItemsLeftInTheRoom()) System.out.println(currentRoom.printItemsInRoom());
         }
     }
 
